@@ -17,7 +17,7 @@
 /build
 .iml
 
-AndroidApp.iml
+RouteCalculator.iml
 local.properties
 
 bin/classes/com/actionbarsherlock/R$layout.class
