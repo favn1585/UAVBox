@@ -28,6 +28,6 @@ class NetworkModule {
     }
 
     companion object {
-        const val BASE_URL = "https://s3.amazonaws.com"
+        const val BASE_URL = "https://raw.githubusercontent.com"
     }
 }
