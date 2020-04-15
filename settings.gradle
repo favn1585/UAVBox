@@ -1,2 +1,2 @@
 include ':app', ':domain', ':data-network', ':data-repository'
-rootProject.name='RouteCalculator'
+rootProject.name='UAVBox'

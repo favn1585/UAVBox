@@ -1,4 +1,4 @@
-package com.fr24.repository
+package com.uav.box.repository
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.fr24.repository.test", appContext.packageName)
+        assertEquals("com.uav.box.repository.test", appContext.packageName)
     }
 }

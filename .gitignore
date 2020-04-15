@@ -17,10 +17,9 @@
 /build
 .iml
 
-RouteCalculator.iml
+UAVBox.iml
 local.properties
 
-bin/classes/com/actionbarsherlock/R$layout.class
 bin/R.txt
 /*.iml
 
@@ -28,7 +27,6 @@ com_crashlytics_export_strings.xml
 crashlytics-build.properties
 
 *.iml
-app/src/main/res/values-iw/strings.xml
 package-lock.json
 **/node_modules
 *.log

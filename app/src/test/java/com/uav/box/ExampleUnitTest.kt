@@ -1,4 +1,4 @@
-package com.fr24.routecalculator
+package com.uav.box
 
 import org.junit.Test
 
