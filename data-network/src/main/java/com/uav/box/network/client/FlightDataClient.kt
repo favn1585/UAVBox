@@ -5,6 +5,6 @@ import io.reactivex.Single
 import retrofit2.http.GET
 
 interface FlightDataClient {
-    @GET("/favn1585/UAVBox/blob/master/data.json")
+    @GET("/favn1585/UAVBox/master/data.json")
     fun loadFlightData(): Single<FlightDataDto>
 }

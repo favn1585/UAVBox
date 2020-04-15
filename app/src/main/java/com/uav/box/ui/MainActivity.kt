@@ -1,8 +1,11 @@
-package com.uav.box
+package com.uav.box.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.uav.box.R
 import com.uav.box.app.App
+import com.uav.box.databinding.ActivityMainBinding
 import com.uav.box.domain.entity.Flight
 import com.uav.box.utils.CoordinateUtils
 import com.uav.box.domain.entity.FlightData
@@ -10,7 +13,6 @@ import com.uav.box.domain.repository.FlightDataRepository
 import com.uav.box.domain.rx.SchedulersProvider
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -28,9 +30,11 @@ class MainActivity : AppCompatActivity() {
 
     private var flightData: FlightData? = null
 
+    lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         (applicationContext as App).component.inject(this)
 
@@ -75,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
             .subscribe { text ->
-                tvFarthestPlanes.text = text
+                binding.tvFarthestPlanes.text = text
             })
     }
 

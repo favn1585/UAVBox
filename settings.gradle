@@ -1,2 +1,3 @@
 include ':app', ':domain', ':data-network', ':data-repository'
 rootProject.name='UAVBox'
+include ':common-android'
