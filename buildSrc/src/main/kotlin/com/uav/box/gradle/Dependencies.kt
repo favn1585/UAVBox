@@ -26,7 +26,6 @@ object Dependencies {
     private const val daggerAndroidSuport =
         "com.google.dagger:dagger-android-support:$daggerAndroidSupportVer"
 
-
     val commonDependencies = listOf(
         rxjava,
         rxkotlin,

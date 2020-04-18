@@ -1,5 +1,7 @@
 package com.uav.box.ui
 
+import androidx.databinding.Bindable
+import com.uav.box.BR
 import com.uav.box.common.android.BaseViewModel
 import com.uav.box.domain.entity.Flight
 import com.uav.box.domain.entity.FlightData
@@ -7,6 +9,7 @@ import com.uav.box.domain.repository.FlightDataRepository
 import com.uav.box.domain.rx.SchedulersProvider
 import com.uav.box.utils.CoordinateUtils
 import io.reactivex.Single
+import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class MainActivityViewModel @Inject constructor(
@@ -15,6 +18,9 @@ class MainActivityViewModel @Inject constructor(
     private val coordinateUtils: CoordinateUtils
 ) : BaseViewModel() {
 
+    @get:Bindable
+    var title: String by observable("", BR.title)
+
     private var flightData: FlightData? = null
 
     init {
@@ -22,10 +28,14 @@ class MainActivityViewModel @Inject constructor(
             flightDataRepository.getFlightData()
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
-                .subscribe { flightData ->
-                    this.flightData = flightData
-                    calcFarthestPlanes()
-                }.autoDispose()
+                .subscribeBy(
+                    onSuccess = { flightData ->
+                        this.flightData = flightData
+                        calcFarthestPlanes()
+                    },
+                    onError = {
+                        // Timber.e...
+                    }).autoDispose()
         }
     }
 
@@ -61,7 +71,7 @@ class MainActivityViewModel @Inject constructor(
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
             .subscribe { text ->
-                //binding.tvFarthestPlanes.text = text
+                title = text!!
             }.autoDispose()
     }
 }
