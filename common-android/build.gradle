@@ -3,6 +3,12 @@ import com.uav.box.gradle.UAVBoxModule
 apply plugin: 'com.android.library'
 apply plugin: UAVBoxModule
 
+android {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

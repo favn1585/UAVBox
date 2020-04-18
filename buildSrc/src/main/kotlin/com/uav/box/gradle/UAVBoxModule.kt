@@ -17,10 +17,7 @@ class UAVBoxModule : Plugin<Project> {
             plugins.apply("org.jetbrains.kotlin.android.extensions")
 
             dependencies {
-                listOf(
-                    Dependencies.rxjava,
-                    Dependencies.rxkotlin
-                ).forEach {
+                Dependencies.commonDependencies.forEach {
                     add("implementation", it)
                 }
             }
