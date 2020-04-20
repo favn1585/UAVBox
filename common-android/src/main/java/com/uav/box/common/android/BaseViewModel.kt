@@ -24,14 +24,14 @@ open class BaseViewModel : ViewModel() {
     private var started = false
 
     private val isFirstRun: Boolean
-    get() {
-        return !started
-    }
+        get() {
+            return !started
+        }
 
     private val wasAlreadyStarted: Boolean
-    get() {
-        return started
-    }
+        get() {
+            return started
+        }
 
     @CallSuper
     open fun start() {
@@ -55,7 +55,7 @@ open class BaseViewModel : ViewModel() {
         }
     }
 
-    fun BaseViewModel.subscribeOnStartup(block: () -> Disposable) {
+    fun subscribeOnStartup(block: () -> Disposable) {
         runOnStartup {
             subscribe(block)
         }
@@ -158,9 +158,11 @@ abstract class ViewModel : Observable, androidx.lifecycle.ViewModel(), Closeable
      * Extension method for creating kotlin delegated properties which automatically notify [BaseObservable] that
      * property value has changed
      */
-    fun <T> BaseObservable.observable(initialValue: T,
-                                      br: Int,
-                                      onValueChange: OnValueChange<T> = {}) = optionalObservable(
+    fun <T> BaseObservable.observable(
+        initialValue: T,
+        br: Int,
+        onValueChange: OnValueChange<T> = {}
+    ) = optionalObservable(
         initialValue = initialValue,
         br = br,
         onValueChange = onValueChange,
@@ -171,9 +173,11 @@ abstract class ViewModel : Observable, androidx.lifecycle.ViewModel(), Closeable
      * Extension method for creating kotlin delegated properties which automatically notify [BaseObservable] that
      * property value has changed
      */
-    fun <T> BaseObservable.optionalObservable(initialValue: T, br: Int,
-                                              onValueChange: OnValueChange<T> = {},
-                                              shouldValueChange: ShouldValueChange<T>)
+    fun <T> BaseObservable.optionalObservable(
+        initialValue: T, br: Int,
+        onValueChange: OnValueChange<T> = {},
+        shouldValueChange: ShouldValueChange<T>
+    )
             : ReadWriteProperty<Any?, T> = object : ObservableProperty<T>(initialValue) {
 
         override fun beforeChange(property: KProperty<*>, oldValue: T, newValue: T): Boolean {
@@ -192,7 +196,11 @@ abstract class ViewModel : Observable, androidx.lifecycle.ViewModel(), Closeable
      * Extension method for creating kotlin delegated properties which automatically notify [BaseViewModel] that
      * property value has changed
      */
-    fun <T> ViewModel.observable(initialValue: T, br: Int, onValueChange: OnValueChange<T> = {}) = optionalObservable(
+    fun <T> BaseViewModel.observable(
+        initialValue: T,
+        br: Int,
+        onValueChange: OnValueChange<T> = {}
+    ) = optionalObservable(
         initialValue = initialValue,
         br = br,
         onValueChange = onValueChange,
@@ -203,9 +211,11 @@ abstract class ViewModel : Observable, androidx.lifecycle.ViewModel(), Closeable
      * Extension method for creating kotlin delegated properties which automatically notify [BaseViewModel] that
      * property value has changed
      */
-    fun <T> ViewModel.optionalObservable(initialValue: T, br: Int,
-                                         onValueChange: OnValueChange<T> = {},
-                                         shouldValueChange: ShouldValueChange<T>)
+    fun <T> BaseViewModel.optionalObservable(
+        initialValue: T, br: Int,
+        onValueChange: OnValueChange<T> = {},
+        shouldValueChange: ShouldValueChange<T>
+    )
             : ReadWriteProperty<Any?, T> = object : ObservableProperty<T>(initialValue) {
 
         override fun beforeChange(property: KProperty<*>, oldValue: T, newValue: T): Boolean {
@@ -231,7 +241,7 @@ abstract class ViewModel : Observable, androidx.lifecycle.ViewModel(), Closeable
      * query string. Of cource it could be implemented in other way but I didn't want to touch activity at all and have
      * there any logic.
      */
-    fun <T> ViewModel.onChange(propertyId: Int, block: () -> T): RxObservable<T> {
+    fun <T> BaseViewModel.onChange(propertyId: Int, block: () -> T): RxObservable<T> {
 
         return RxObservable.create { emmiter ->
 
@@ -254,7 +264,7 @@ abstract class ViewModel : Observable, androidx.lifecycle.ViewModel(), Closeable
     }
 }
 
-fun ViewModel.post(action: UnitAction) {
+fun BaseViewModel.post(action: UnitAction) {
     Handler().post {
         action()
     }
