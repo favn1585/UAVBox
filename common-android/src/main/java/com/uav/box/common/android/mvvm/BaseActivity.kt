@@ -1,12 +1,16 @@
 package com.uav.box.common.android.mvvm
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
 import com.uav.box.common.android.BaseViewModel
+import com.uav.box.common.android.navigation.Dispatcher
 import javax.inject.Inject
 
 /**
@@ -19,6 +23,11 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding>(
 
     @Inject
     lateinit var viewModelFactory: GenericViewModelFactory<VM>
+
+    @Inject
+    lateinit var dispatcher: Dispatcher
+
+    private val postOnResumeActions = mutableListOf<() -> Unit>()
 
     private lateinit var binding: DB
     lateinit var viewModel: VM
@@ -39,6 +48,18 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding>(
     override fun onPause() {
         super.onPause()
         viewModel.stop()
+    }
+
+    @CallSuper
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        postOnResumeActions.add {
+            when (resultCode) {
+                Activity.RESULT_CANCELED -> dispatcher.onResult(requestCode, false, data)
+                Activity.RESULT_OK -> dispatcher.onResult(requestCode, true, data)
+            }
+        }
     }
 
     protected abstract fun inject()

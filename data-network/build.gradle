@@ -4,10 +4,6 @@ apply plugin: 'com.android.library'
 apply plugin: UAVBoxModule
 
 dependencies {
-    implementation project(':domain')
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     api 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
@@ -18,4 +14,6 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.24'
 
     implementation 'com.google.code.gson:gson:2.8.5' // Moshi is faster but let's use GSON for now
+
+    implementation project(':domain')
 }
